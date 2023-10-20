@@ -78,8 +78,9 @@ function custom_opengraph_meta_box_callback($post) {
     <label for="custom_opengraph_data[description]">OpenGraph Description:</label>
     <textarea id="custom_opengraph_data[description]" name="custom_opengraph_data[description]"><?php echo esc_textarea($merged_data['description']); ?></textarea><br/>
 
-    <label for="custom_opengraph_data[image]">OpenGraph Image URL:</label>
-    <input type="text" id="custom_opengraph_data[image]" name="custom_opengraph_data[image]" value="<?php echo esc_url($merged_data['image']); ?>" /><br/>
+    <label for="custom_opengraph_image">OpenGraph Image:</label>
+<input type="text" id="custom_opengraph_image" name="custom_opengraph_data[image]" value="<?php echo esc_url($merged_data['image']); ?>" readonly />
+<button id="custom_opengraph_image_button" class="button">Select Image</button><br/>
     <?php
 }
 
@@ -107,4 +108,14 @@ function custom_opengraph_output() {
     }
 }
 add_action('wp_head', 'custom_opengraph_output');
+
+// Add JavaScript for media library integration
+function custom_opengraph_enqueue_scripts() {
+    wp_enqueue_media();
+
+    wp_register_script('custom-opengraph-admin', plugins_url('custom-opengraph-admin.js', __FILE__), array('jquery'), '1.0.0', true);
+    wp_enqueue_script('custom-opengraph-admin');
+}
+add_action('admin_enqueue_scripts', 'custom_opengraph_enqueue_scripts');
+
 ?>
