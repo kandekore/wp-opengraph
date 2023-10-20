@@ -48,23 +48,37 @@ function custom_opengraph_settings_page() {
 
     ?>
     <div class="wrap">
-        <h2>Custom OpenGraph Settings</h2>
+        <h2>Default OpenGraph Settings</h2>
         <form method="post" action="">
-            <label for="opengraph_default[title]">Default OpenGraph Title:</label>
-            <input type="text" id="opengraph_default[title]" name="opengraph_default[title]" value="<?php echo esc_attr($default_data['title']); ?>" /><br/>
-
-            <label for="opengraph_default[description]">Default OpenGraph Description:</label>
-            <textarea id="opengraph_default[description]" name="opengraph_default[description]"><?php echo esc_textarea($default_data['description']); ?></textarea><br/>
-
-            <label for="opengraph_default[image]">Default OpenGraph Image URL:</label>
-            <input type="text" id="opengraph_default[image]" name="opengraph_default[image]" value="<?php echo esc_url($default_data['image']); ?>" /><br/>
-
+            <table class="form-table">
+                <tr>
+                    <th scope="row">Default OpenGraph Title:</th>
+                    <td><input type="text" name="opengraph_default[title]" value="<?php echo esc_attr($default_data['title']); ?>" /></td>
+                </tr>
+                <tr>
+                    <th scope="row">Default OpenGraph Description:</th>
+                    <td><textarea name="opengraph_default[description]"><?php echo esc_textarea($default_data['description']); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row">Default OpenGraph Image URL:</th>
+                    <td>
+					
+					  <input type="text" id="custom_opengraph_image" name="opengraph_default[image]" value="<?php echo esc_url($default_data['image']); ?>" />
+                <button id="custom_opengraph_image_button" class="button">Select Image</button>
+					</td>
+                </tr>
+				 <tr><td><?php
+        // Display the selected image if an image URL is set
+        if (!empty($default_data['image'])) {
+            echo '<img src="' . esc_url($default_data['image']) . '" style="max-width: 200px;" />';
+        }
+		?></td></tr>
+            </table>
             <?php submit_button(); ?>
         </form>
     </div>
     <?php
 }
-
 // Callback function for the meta box
 function custom_opengraph_meta_box_callback($post) {
     $opengraph_data = get_post_meta($post->ID, 'custom_opengraph_data', true);
@@ -72,15 +86,30 @@ function custom_opengraph_meta_box_callback($post) {
     $merged_data = wp_parse_args($opengraph_data, $default_data);
 
     ?>
-    <label for="custom_opengraph_data[title]">OpenGraph Title:</label>
-    <input type="text" id="custom_opengraph_data[title]" name="custom_opengraph_data[title]" value="<?php echo esc_attr($merged_data['title']); ?>" /><br/>
-
-    <label for="custom_opengraph_data[description]">OpenGraph Description:</label>
-    <textarea id="custom_opengraph_data[description]" name="custom_opengraph_data[description]"><?php echo esc_textarea($merged_data['description']); ?></textarea><br/>
-
-    <label for="custom_opengraph_image">OpenGraph Image:</label>
-<input type="text" id="custom_opengraph_image" name="custom_opengraph_data[image]" value="<?php echo esc_url($merged_data['image']); ?>" readonly />
-<button id="custom_opengraph_image_button" class="button">Select Image</button><br/>
+    <table class="form-table">
+        <tr>
+            <th scope="row">OpenGraph Title:</th>
+            <td><input type="text" name="custom_opengraph_data[title]" value="<?php echo esc_attr($merged_data['title']); ?>" /></td>
+        </tr>
+        <tr>
+            <th scope="row">OpenGraph Description:</th>
+            <td><textarea name="custom_opengraph_data[description]"><?php echo esc_textarea($merged_data['description']); ?></textarea></td>
+        </tr>
+        <tr>
+            <th scope="row">OpenGraph Image:</th>
+            <td>
+                <input type="text" id="custom_opengraph_image" name="custom_opengraph_data[image]" value="<?php echo esc_url($merged_data['image']); ?>" readonly />
+                <button id="custom_opengraph_image_button" class="button">Select Image</button>
+		
+            </td>		 
+        </tr>
+		 <tr><td><?php
+        // Display the selected image if an image URL is set
+        if (!empty($merged_data['image'])) {
+            echo '<img src="' . esc_url($merged_data['image']) . '" style="max-width: 200px;" />';
+        }
+		?></td></tr>
+    </table>
     <?php
 }
 
