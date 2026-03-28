@@ -50,7 +50,7 @@ To select an image from your media library for the OpenGraph image URL, click th
 
 ## Author
 
-- Author: D.Kandekore
+- Author: Darren Kandekore
 
 ## Version
 
